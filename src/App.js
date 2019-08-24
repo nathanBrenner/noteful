@@ -14,6 +14,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log('foo');
     return (
       <BrowserRouter>
         <div className="App">
