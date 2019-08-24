@@ -23,3 +23,7 @@
 .active {
   background-color: red;
 }
+
+.Sidebar-folderName {
+  text-align: right;
+}

@@ -17,31 +17,29 @@ const Sidebar = ({ folders, match, history }) => {
   match = match || {};
   return (
     <div>
-      <>
-        {(!match || match.path !== '/note/:id') && (
-          <>
-            <ul className="Sidebar">
-              {folders.map(folder => (
-                <li key={folder.id}>
-                  <FolderLink folder={folder} />
-                </li>
-              ))}
-            </ul>
-            <div className="Sidebar-actions">
-              <button className="Sidebar-add">Add folder</button>
-            </div>
-          </>
-        )}
+      {(!match || match.path !== '/note/:id') && (
+        <>
+          <ul className="Sidebar">
+            {folders.map(folder => (
+              <li key={folder.id}>
+                <FolderLink folder={folder} />
+              </li>
+            ))}
+          </ul>
+          <div className="Sidebar-actions">
+            <button className="Sidebar-add">Add folder</button>
+          </div>
+        </>
+      )}
 
-        {match && match.path === '/note/:id' && (
-          <>
-            <button className="Sidebar-add" onClick={() => history.goBack()}>
-              Go back
-            </button>
-            <h2>{findFolder(match.params.id)}</h2>
-          </>
-        )}
-      </>
+      {match && match.path === '/note/:id' && (
+        <>
+          <button className="Sidebar-add" onClick={() => history.goBack()}>
+            Go back
+          </button>
+          <h2 className="Sidebar-folderName">{findFolder(match.params.id)}</h2>
+        </>
+      )}
     </div>
   );
 };
