@@ -4,59 +4,80 @@ import Main from './Main/Main';
 import Folder from './Folder/Folder';
 import Note from './Note/Note';
 import './App.css';
-import dummyStore from './dummy-store';
 import Sidebar from './Sidebar/Sidebar';
+import NotefulContext from './NotefulContext';
 
 class App extends React.Component {
   state = {
-    notes: dummyStore.notes,
-    folders: dummyStore.folders,
+    notes: [],
+    folders: [],
+    error: null,
+  };
+
+  componentDidMount() {
+    Promise.all([this.fetchFolders(), this.fetchNotes()])
+      .then(([folders, notes]) => {
+        this.setState({ notes, folders });
+      })
+      .catch(error => this.setState({ error }));
+  }
+
+  fetchFolders = () => {
+    return fetch('http://localhost:9090/folders', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+    }).then(res => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+      return res.json();
+    });
+  };
+
+  fetchNotes = () => {
+    return fetch('http://localhost:9090/notes', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+    }).then(res => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+      return res.json();
+    });
   };
 
   render() {
-    console.log('foo');
+    const contextValue = {
+      notes: this.state.notes,
+      folders: this.state.folders,
+    };
     return (
-      <BrowserRouter>
-        <div className="App">
-          <header className="App-header">
-            <Link to="/">Noteful</Link>
-          </header>
-          <main className="App-main">
-            <Route
-              exact
-              path="/"
-              component={() => <Sidebar folders={this.state.folders} />}
-            />
-            <Route
-              path="/folder/:id"
-              component={() => <Sidebar folders={this.state.folders} />}
-            />
-            <Route
-              path="/note/:id"
-              component={props => (
-                <Sidebar folders={this.state.folders} {...props} />
-              )}
-            />
-            <div className="App-routes">
-              <Route
-                path="/"
-                exact
-                component={() => <Main notes={this.state.notes} />}
-              />
-              <Route
-                path="/folder/:id"
-                component={Folder}
-                notes={this.state.notes}
-              />
+      <NotefulContext.Provider value={contextValue}>
+        <BrowserRouter>
+          <div className="App">
+            <header className="App-header">
+              <Link to="/">Noteful</Link>
+            </header>
+            <main className="App-main">
+              <Route exact path="/" component={Sidebar} />
+              <Route path="/folder/:id" component={Sidebar} />
               <Route
                 path="/note/:id"
-                component={Note}
-                notes={this.state.notes}
+                component={props => <Sidebar {...props} />}
               />
-            </div>
-          </main>
-        </div>
-      </BrowserRouter>
+              <div className="App-routes">
+                <Route path="/" exact component={Main} />
+                <Route path="/folder/:id" component={Folder} />
+                <Route path="/note/:id" component={Note} />
+              </div>
+            </main>
+          </div>
+        </BrowserRouter>
+      </NotefulContext.Provider>
     );
   }
 }

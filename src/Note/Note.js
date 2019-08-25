@@ -1,16 +1,21 @@
 import React from 'react';
 import NoteDescription from '../NoteDescription/NoteDescription';
-import store from '../dummy-store';
 import './Note.css';
+import NotefulContext from '../NotefulContext';
 
-const Note = props => {
-  const note = store.notes.find(({ id }) => id === props.match.params.id);
-  return (
-    <div>
-      <NoteDescription note={note} />
-      <p className="Note-content">{note.content}</p>
-    </div>
-  );
-};
+class Note extends React.Component {
+  static contextType = NotefulContext;
+  render() {
+    const note = this.context.notes.find(
+      ({ id }) => id === this.props.match.params.id
+    );
+    return (
+      <div>
+        <NoteDescription note={note} />
+        <p className="Note-content">{note.content}</p>
+      </div>
+    );
+  }
+}
 
 export default Note;
