@@ -1,47 +1,57 @@
 import React from 'react';
 import FolderLink from '../FolderLink/FolderLink';
 import './Sidebar.css';
-import store from '../dummy-store';
+import NotefulContext from '../NotefulContext';
 
-function findFolder(noteId) {
+function findFolder(noteId, context) {
   if (!noteId) {
     return '';
   }
-  const folderId = store.notes.find(note => note.id === noteId).folderId;
-  const folder = store.folders.find(f => f.id === folderId);
+  const folderId = context.notes.find(note => note.id === noteId).folderId;
+  const folder = context.folders.find(f => f.id === folderId);
   return folder.name;
 }
 
-const Sidebar = ({ folders, match, history }) => {
-  folders = folders || [];
-  match = match || {};
-  return (
-    <div>
-      {(!match || match.path !== '/note/:id') && (
-        <>
-          <ul className="Sidebar">
-            {folders.map(folder => (
-              <li key={folder.id}>
-                <FolderLink folder={folder} />
-              </li>
-            ))}
-          </ul>
-          <div className="Sidebar-actions">
-            <button className="Sidebar-add">Add folder</button>
-          </div>
-        </>
-      )}
+class Sidebar extends React.Component {
+  static defaultProps = {
+    folders: [],
+  };
+  static contextType = NotefulContext;
 
-      {match && match.path === '/note/:id' && (
-        <>
-          <button className="Sidebar-add" onClick={() => history.goBack()}>
-            Go back
-          </button>
-          <h2 className="Sidebar-folderName">{findFolder(match.params.id)}</h2>
-        </>
-      )}
-    </div>
-  );
-};
+  render() {
+    return (
+      <div>
+        {(!this.props.match || this.props.match.path !== '/note/:id') && (
+          <>
+            <ul className="Sidebar">
+              {this.context.folders.map(folder => (
+                <li key={folder.id}>
+                  <FolderLink folder={folder} />
+                </li>
+              ))}
+            </ul>
+            <div className="Sidebar-actions">
+              <button className="Sidebar-add">Add folder</button>
+            </div>
+          </>
+        )}
+
+        {this.props.match && this.props.match.path === '/note/:id' && (
+          <>
+            <button
+              className="Sidebar-add"
+              onClick={() => this.props.history.goBack()}
+            >
+              Go back
+            </button>
+            <h2 className="Sidebar-folderName">
+              {findFolder(this.props.match.params.id, this.context)}
+            </h2>
+          </>
+        )}
+      </div>
+    );
+  }
+}
 
 export default Sidebar;
