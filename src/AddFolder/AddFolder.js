@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ValidationError from '../ValidationError/ValidationError';
 import NotefulContext from '../NotefulContext';
 import fetchHandler from '../fetchHandler';
+import PropTypes from 'prop-types';
 
 export default class AddFolder extends Component {
   state = {
@@ -39,26 +40,35 @@ export default class AddFolder extends Component {
             className="AddFolder"
             onSubmit={e => this.handleSubmit(e, context.postFolder)}
           >
-            <h2>Add Folder</h2>
-            <div className="AddFolder__form-group">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                className="AddFolder__name-input"
-                onChange={e => this.updateName(e.target.value)}
-              />
-              <ValidationError
-                message={this.validateName().message}
-                isVisible={this.state.name.touched}
-              />
+            <h2 className="App__form-title">Add Folder</h2>
+            <div className="App__form-group">
+              <label htmlFor="name">
+                <div>Name</div>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  onChange={e => this.updateName(e.target.value)}
+                />
+                <ValidationError
+                  message={this.validateName().message}
+                  isVisible={this.state.name.touched}
+                />
+              </label>
             </div>
             <div>
-              <button type="button" onClick={() => this.props.history.goBack()}>
+              <button
+                type="button"
+                className="App__button"
+                onClick={() => this.props.history.goBack()}
+              >
                 cancel
               </button>
-              <button type="submit" disabled={!this.validateName().isValid}>
+              <button
+                type="submit"
+                className="App__button"
+                disabled={!this.validateName().isValid}
+              >
                 Submit
               </button>
             </div>
@@ -68,3 +78,10 @@ export default class AddFolder extends Component {
     );
   }
 }
+
+AddFolder.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+    push: PropTypes.func,
+  }),
+};

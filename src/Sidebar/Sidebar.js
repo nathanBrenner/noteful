@@ -4,6 +4,7 @@ import './Sidebar.css';
 import NotefulContext from '../NotefulContext';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import PropTypes from 'prop-types';
 
 function findFolder(noteId, context) {
   if (!noteId) {
@@ -34,7 +35,7 @@ class Sidebar extends React.Component {
                 ))}
               </ul>
               <div className="Sidebar-actions">
-                <Link className="Sidebar-add" to="/folder">
+                <Link className="App__button" to="/folder">
                   Add folder
                 </Link>
               </div>
@@ -44,7 +45,7 @@ class Sidebar extends React.Component {
           {this.props.match && this.props.match.path === '/note/:id' && (
             <>
               <button
-                className="Sidebar-add"
+                className="App__button"
                 onClick={() => this.props.history.goBack()}
               >
                 Go back
@@ -59,5 +60,24 @@ class Sidebar extends React.Component {
     );
   }
 }
+
+Sidebar.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    path: PropTypes.string,
+  }),
+};
+
+Sidebar.defaultProps = {
+  match: {
+    params: {},
+    path: '',
+  },
+};
 
 export default Sidebar;

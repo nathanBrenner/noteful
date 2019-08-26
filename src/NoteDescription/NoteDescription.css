@@ -24,6 +24,4 @@
 
 .NoteDescription-delete {
   grid-area: 2/2/3/3;
-  border: 1px solid black;
-  height: 40px;
 }

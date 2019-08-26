@@ -1,16 +1,10 @@
 .FooterLink {
-  text-decoration: none;
   width: 150px;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
-  padding: 10px;
-  color: black;
+  margin: 0;
 }
 
-.FooterLink:hover {
-  font-weight: 700;
-}
 .FooterLink-active {
   background-color: #87d9fd;
 }

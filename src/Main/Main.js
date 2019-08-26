@@ -4,6 +4,7 @@ import NotefulContext from '../NotefulContext';
 import NoteDescription from '../NoteDescription/NoteDescription';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import './Main.css';
+
 class Main extends React.Component {
   static contextType = NotefulContext;
 
@@ -15,9 +16,11 @@ class Main extends React.Component {
           {notes.map(note => (
             <NoteDescription key={note.id} note={note} />
           ))}
-          <Link className="Main-add" to="/note">
-            Add note
-          </Link>
+          <div>
+            <Link className="App__button" to="/note">
+              Add note
+            </Link>
+          </div>
         </div>
       </ErrorBoundary>
     );

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import NoteDescription from '../NoteDescription/NoteDescription';
 import NotefulContext from '../NotefulContext';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import PropTypes from 'prop-types';
 
 class Folder extends React.Component {
   static contextType = NotefulContext;
@@ -17,7 +18,7 @@ class Folder extends React.Component {
           {filteredNotes.map(note => (
             <NoteDescription note={note} key={note.id} />
           ))}
-          <Link className="Main-add" to="/note">
+          <Link className="App__button" to="/note">
             Add note
           </Link>
         </div>
@@ -25,5 +26,13 @@ class Folder extends React.Component {
     );
   }
 }
+
+Folder.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
+};
 
 export default Folder;

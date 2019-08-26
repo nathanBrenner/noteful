@@ -4,6 +4,7 @@ import './NoteDescription.css';
 import NotefulContext from '../NotefulContext';
 import { withRouter } from 'react-router-dom';
 import fetchHandler from '../fetchHandler';
+import PropTypes from 'prop-types';
 
 function deleteNote(id, cb, history) {
   fetchHandler.note
@@ -43,7 +44,7 @@ const NoteDescription = ({ note, history }) => {
             monthMap[modifiedDate.getMonth()]
           } ${modifiedDate.getFullYear()}`}</div>
           <button
-            className="NoteDescription-delete"
+            className="App__button NoteDescription-delete"
             onClick={() => deleteNote(note.id, context.deleteNote, history)}
           >
             Delete Note
@@ -52,6 +53,17 @@ const NoteDescription = ({ note, history }) => {
       )}
     </NotefulContext.Consumer>
   );
+};
+
+NoteDescription.propTypes = {
+  note: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    modified: PropTypes.string,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
 export default withRouter(NoteDescription);

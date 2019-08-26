@@ -33,3 +33,22 @@
 .Main-add:hover {
   font-weight: 700;
 }
+
+.App__form-title,
+.App__form-group {
+  margin: 10px;
+}
+
+.App__button {
+  width: 125px;
+  margin: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+  text-align: center;
+}
+
+.App__button:hover {
+  font-weight: 700;
+}

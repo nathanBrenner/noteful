@@ -3,6 +3,7 @@ import NoteDescription from '../NoteDescription/NoteDescription';
 import './Note.css';
 import NotefulContext from '../NotefulContext';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import PropTypes from 'prop-types';
 
 class Note extends React.Component {
   static contextType = NotefulContext;
@@ -20,5 +21,13 @@ class Note extends React.Component {
     );
   }
 }
+
+Note.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
+};
 
 export default Note;

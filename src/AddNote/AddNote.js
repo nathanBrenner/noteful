@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ValidationError from '../ValidationError/ValidationError';
 import NotefulContext from '../NotefulContext';
 import fetchHandler from '../fetchHandler';
+import PropTypes from 'prop-types';
 
 export default class AddNote extends Component {
   state = {
@@ -65,53 +66,63 @@ export default class AddNote extends Component {
             className="AddNote"
             onSubmit={e => this.handleSubmit(e, context)}
           >
-            <h2>Add Note</h2>
-            <div className="AddNote__form-group">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                className="AddFolder__name-input"
-                onChange={e => this.updateInput(e.target.value, 'name')}
-              />
+            <h2 className="App__form-title">Add Note</h2>
+            <div className="App__form-group">
+              <label htmlFor="name">
+                <div>Name</div>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  onChange={e => this.updateInput(e.target.value, 'name')}
+                />
+              </label>
               <ValidationError
                 message={this.validateName().message}
                 isVisible={this.state.name.touched}
               />
             </div>
-            <div className="AddNote__form-group">
-              <label htmlFor="folder">Folder</label>
-              <select
-                onChange={e => this.updateInput(e.target.value, 'folder')}
-                onBlur={e => this.updateInput(e.target.value, 'folder')}
-              >
-                <option></option>
-                {context.folders.map(({ name, id }) => (
-                  <option key={id} value={name}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-              <ValidationError
-                message={this.validateFolder(context.folders).message}
-                isVisible={this.state.name.touched}
-              />
+            <div className="App__form-group">
+              <label htmlFor="folder">
+                <div>Folder</div>
+                <select
+                  onChange={e => this.updateInput(e.target.value, 'folder')}
+                  onBlur={e => this.updateInput(e.target.value, 'folder')}
+                >
+                  <option></option>
+                  {context.folders.map(({ name, id }) => (
+                    <option key={id} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+                <ValidationError
+                  message={this.validateFolder(context.folders).message}
+                  isVisible={this.state.name.touched}
+                />
+              </label>
             </div>
 
-            <div className="AddNote__form-group">
-              <label htmlFor="Content">Content</label>
-              <textarea
-                onChange={e => this.updateInput(e.target.value, 'content')}
-              />
+            <div className="App__form-group">
+              <label htmlFor="Content">
+                <div>Content</div>
+                <textarea
+                  onChange={e => this.updateInput(e.target.value, 'content')}
+                />
+              </label>
             </div>
 
             <div>
-              <button type="button" onClick={() => this.props.history.goBack()}>
+              <button
+                type="button"
+                className="App__button"
+                onClick={() => this.props.history.goBack()}
+              >
                 cancel
               </button>
               <button
                 type="submit"
+                className="App__button"
                 disabled={
                   !this.validateName().isValid ||
                   !this.validateFolder(context.folders).isValid
@@ -126,3 +137,9 @@ export default class AddNote extends Component {
     );
   }
 }
+AddNote.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+    push: PropTypes.func,
+  }),
+};

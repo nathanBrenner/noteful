@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-export default class CurrencyError extends Component {
+export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,3 +18,8 @@ export default class CurrencyError extends Component {
     return this.props.children;
   }
 }
+
+ErrorBoundary.propTypes = {
+  errorMessage: PropTypes.string,
+  children: PropTypes.node,
+};
