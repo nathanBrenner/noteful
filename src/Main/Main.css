@@ -3,6 +3,9 @@
   margin: 10px;
   border: 1px solid black;
   padding: 10px;
+  text-decoration: none;
+  color: black;
+  text-align: center;
 }
 
 .Main-add:hover {

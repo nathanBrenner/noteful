@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import NotefulContext from '../NotefulContext';
 import NoteDescription from '../NoteDescription/NoteDescription';
 import './Main.css';
-import NotefulContext from '../NotefulContext';
 class Main extends React.Component {
   static contextType = NotefulContext;
 
@@ -12,7 +13,9 @@ class Main extends React.Component {
         {notes.map(note => (
           <NoteDescription key={note.id} note={note} />
         ))}
-        <button className="Main-add">Add note</button>
+        <Link className="Main-add" to="/note">
+          Add note
+        </Link>
       </div>
     );
   }

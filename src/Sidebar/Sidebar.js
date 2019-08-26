@@ -2,7 +2,7 @@ import React from 'react';
 import FolderLink from '../FolderLink/FolderLink';
 import './Sidebar.css';
 import NotefulContext from '../NotefulContext';
-
+import { Link } from 'react-router-dom';
 function findFolder(noteId, context) {
   if (!noteId) {
     return '';
@@ -31,7 +31,9 @@ class Sidebar extends React.Component {
               ))}
             </ul>
             <div className="Sidebar-actions">
-              <button className="Sidebar-add">Add folder</button>
+              <Link className="Sidebar-add" to="/folder">
+                Add folder
+              </Link>
             </div>
           </>
         )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import NoteDescription from '../NoteDescription/NoteDescription';
 import NotefulContext from '../NotefulContext';
 
@@ -14,7 +15,9 @@ class Folder extends React.Component {
         {filteredNotes.map(note => (
           <NoteDescription note={note} key={note.id} />
         ))}
-        <button className="Main-add">Add note</button>
+        <Link className="Main-add" to="/note">
+          Add note
+        </Link>
       </div>
     );
   }

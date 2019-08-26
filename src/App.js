@@ -3,9 +3,12 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import Main from './Main/Main';
 import Folder from './Folder/Folder';
 import Note from './Note/Note';
-import './App.css';
 import Sidebar from './Sidebar/Sidebar';
 import NotefulContext from './NotefulContext';
+import AddFolder from './AddFolder/AddFolder';
+import AddNote from './AddNote/AddNote';
+import './App.css';
+import fetchHandler from './fetchHandler';
 
 class App extends React.Component {
   state = {
@@ -15,43 +18,23 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    Promise.all([this.fetchFolders(), this.fetchNotes()])
+    Promise.all([fetchHandler.folder.get(), fetchHandler.note.get()])
       .then(([folders, notes]) => {
         this.setState({ notes, folders });
       })
       .catch(error => this.setState({ error }));
   }
 
-  fetchFolders = () => {
-    return fetch('http://localhost:9090/folders', {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-      },
-    }).then(res => {
-      if (!res.ok) {
-        throw new Error(res.status);
-      }
-      return res.json();
-    });
-  };
-
-  fetchNotes = () => {
-    return fetch('http://localhost:9090/notes', {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-      },
-    }).then(res => {
-      if (!res.ok) {
-        throw new Error(res.status);
-      }
-      return res.json();
-    });
-  };
-
   deleteNote = id => {
     this.setState(state => ({ notes: state.notes.filter(n => n.id !== id) }));
+  };
+
+  postFolder = folder => {
+    this.setState(state => ({ folders: [...state.folders, folder] }));
+  };
+
+  postNote = note => {
+    this.setState(state => ({ notes: [...state.notes, note] }));
   };
 
   render() {
@@ -59,7 +42,10 @@ class App extends React.Component {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.deleteNote,
+      postFolder: this.postFolder,
+      postNote: this.postNote,
     };
+    const exactRoutes = ['/', '/note', '/folder'];
     return (
       <NotefulContext.Provider value={contextValue}>
         <BrowserRouter>
@@ -68,15 +54,29 @@ class App extends React.Component {
               <Link to="/">Noteful</Link>
             </header>
             <main className="App-main">
-              <Route exact path="/" component={Sidebar} />
+              {/* <Route exact path="/" component={Sidebar} />
+              <Route exact path="/folder" component={Sidebar} />
               <Route path="/folder/:id" component={Sidebar} />
+              <Route exact path="/note" component={Sidebar} />
               <Route
                 path="/note/:id"
                 component={props => <Sidebar {...props} />}
-              />
+              /> */}
+              {['/', '/folder', '/note', '/folder/:id', '/note/:id'].map(
+                path => (
+                  <Route
+                    path={path}
+                    exact={exactRoutes.includes(path)}
+                    component={props => <Sidebar {...props} />}
+                    key={path}
+                  />
+                )
+              )}
               <div className="App-routes">
                 <Route path="/" exact component={Main} />
+                <Route path="/folder" exact component={AddFolder} />
                 <Route path="/folder/:id" component={Folder} />
+                <Route path="/note" exact component={AddNote} />
                 <Route path="/note/:id" component={Note} />
               </div>
             </main>
