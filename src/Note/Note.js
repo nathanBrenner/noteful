@@ -2,6 +2,7 @@ import React from 'react';
 import NoteDescription from '../NoteDescription/NoteDescription';
 import './Note.css';
 import NotefulContext from '../NotefulContext';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 class Note extends React.Component {
   static contextType = NotefulContext;
@@ -10,10 +11,12 @@ class Note extends React.Component {
       ({ id }) => id === this.props.match.params.id
     );
     return (
-      <div>
-        <NoteDescription note={note} />
-        <p className="Note-content">{note.content}</p>
-      </div>
+      <ErrorBoundary errorMessage={'Unable to show this note'}>
+        <div>
+          <NoteDescription note={note} />
+          <p className="Note-content">{note.content}</p>
+        </div>
+      </ErrorBoundary>
     );
   }
 }

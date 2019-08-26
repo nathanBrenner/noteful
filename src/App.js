@@ -54,14 +54,6 @@ class App extends React.Component {
               <Link to="/">Noteful</Link>
             </header>
             <main className="App-main">
-              {/* <Route exact path="/" component={Sidebar} />
-              <Route exact path="/folder" component={Sidebar} />
-              <Route path="/folder/:id" component={Sidebar} />
-              <Route exact path="/note" component={Sidebar} />
-              <Route
-                path="/note/:id"
-                component={props => <Sidebar {...props} />}
-              /> */}
               {['/', '/folder', '/note', '/folder/:id', '/note/:id'].map(
                 path => (
                   <Route
