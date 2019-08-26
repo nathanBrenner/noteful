@@ -24,10 +24,16 @@ export default class AddFolder extends Component {
     this.setState({ name: { value, touched: true } });
   }
 
-  validateName() {
+  validateName(folders = []) {
     const name = this.state.name.value.trim();
     if (name.length === 0) {
       return { message: 'Name is required', isValid: false };
+    }
+    if (folders.map(({ name }) => name).includes(name)) {
+      return {
+        message: 'A folder with that name already exists',
+        isValid: false,
+      };
     }
     return { message: '', isValid: true };
   }
@@ -51,7 +57,7 @@ export default class AddFolder extends Component {
                   onChange={e => this.updateName(e.target.value)}
                 />
                 <ValidationError
-                  message={this.validateName().message}
+                  message={this.validateName(context.folders).message}
                   isVisible={this.state.name.touched}
                 />
               </label>
@@ -67,7 +73,7 @@ export default class AddFolder extends Component {
               <button
                 type="submit"
                 className="App__button"
-                disabled={!this.validateName().isValid}
+                disabled={!this.validateName(context.folders).isValid}
               >
                 Submit
               </button>
