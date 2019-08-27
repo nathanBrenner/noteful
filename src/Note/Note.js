@@ -7,10 +7,11 @@ import PropTypes from 'prop-types';
 
 class Note extends React.Component {
   static contextType = NotefulContext;
+
   render() {
     const note = this.context.notes.find(
       ({ id }) => id === this.props.match.params.id
-    );
+    ) || {};
     return (
       <ErrorBoundary errorMessage={'Unable to show this note'}>
         <div>
@@ -29,5 +30,7 @@ Note.propTypes = {
     }),
   }),
 };
+
+
 
 export default Note;

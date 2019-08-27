@@ -10,9 +10,9 @@ function findFolder(noteId, context) {
   if (!noteId) {
     return '';
   }
-  const folderId = context.notes.find(note => note.id === noteId).folderId;
-  const folder = context.folders.find(f => f.id === folderId);
-  return folder.name;
+  const folderId = ((context.notes || []).find(note => note.id === noteId) || {}).folderId;
+  const folder = (context.folders || []).find(f => f.id === folderId);
+  return (folder || {}).name;
 }
 
 class Sidebar extends React.Component {
