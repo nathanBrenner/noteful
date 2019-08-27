@@ -54,6 +54,8 @@ export default class AddFolder extends Component {
                   type="text"
                   name="name"
                   id="name"
+                  aria-label="folder name"
+                  aria-required="true"
                   onChange={e => this.updateName(e.target.value)}
                 />
                 <ValidationError

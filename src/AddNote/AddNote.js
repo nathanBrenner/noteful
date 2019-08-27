@@ -74,6 +74,8 @@ export default class AddNote extends Component {
                   type="text"
                   name="name"
                   id="name"
+                  aria-label="note name"
+                  aria-required="true"
                   onChange={e => this.updateInput(e.target.value, 'name')}
                 />
               </label>
@@ -88,6 +90,8 @@ export default class AddNote extends Component {
                 <select
                   onChange={e => this.updateInput(e.target.value, 'folder')}
                   onBlur={e => this.updateInput(e.target.value, 'folder')}
+                  aria-label="folder name"
+                  aria-required="true"
                 >
                   <option></option>
                   {context.folders.map(({ name, id }) => (
@@ -107,6 +111,7 @@ export default class AddNote extends Component {
               <label htmlFor="Content">
                 <div>Content</div>
                 <textarea
+                  aria-label="note content"
                   onChange={e => this.updateInput(e.target.value, 'content')}
                 />
               </label>
